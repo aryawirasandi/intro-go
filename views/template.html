@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="http://localhost:3000/static/index.css">
+</head>
+<body>
+    <h1>{{ .PageTitle }}</h1>
+    <ul>
+        {{ range .Todos}}
+            {{if .Done}}
+                <li class="block">
+                    <s>
+                        {{.Title}}
+                    </s>
+                </li>
+            {{else}}
+                <li class="block">{{.Title}}</li>
+            {{end}}    
+        {{end}}
+    </ul>
+</body>
+</html>

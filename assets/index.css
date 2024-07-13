@@ -1,0 +1,11 @@
+* {
+    background-color: black;
+    color: white;
+}
+
+.block:hover{
+    padding: 10px;
+    background-color: white;
+    color: black;
+    width: fit-content;
+}
