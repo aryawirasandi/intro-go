@@ -10,5 +10,9 @@ func main() {
 		fmt.Fprintf(w, "Hello World you are accessing: %s", r.URL)
 	})
 
+	fs := http.FileServer(http.Dir("static/images/"))
+
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
+
 	http.ListenAndServe(":80", nil)
 }
