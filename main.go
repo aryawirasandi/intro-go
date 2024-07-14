@@ -2,6 +2,7 @@ package main
 
 import (
 	"html/template"
+	"log"
 	"net/http"
 )
 
@@ -13,6 +14,13 @@ type Todo struct {
 type TodoPageData struct {
 	PageTitle string
 	Todos     []Todo
+}
+
+func Logger(f http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		log.Println(r.URL.Path)
+		f(w, r)
+	}
 }
 
 func main() {
@@ -40,9 +48,9 @@ func main() {
 				},
 			},
 		}
-		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.HandleFunc("/", Logger(func(w http.ResponseWriter, r *http.Request) {
 			tmpl.Execute(w, data)
-		})
+		}))
 	}
 
 	if tmpl, err := template.ParseFiles("views/forms.html"); err != nil {
@@ -65,7 +73,7 @@ func main() {
 		// 		},
 		// 	},
 		// }
-		http.HandleFunc("/form", func(w http.ResponseWriter, r *http.Request) {
+		http.HandleFunc("/form", Logger(func(w http.ResponseWriter, r *http.Request) {
 			if r.Method != http.MethodPost {
 				tmpl.Execute(w, nil)
 				return
@@ -90,7 +98,7 @@ func main() {
 				Result  ContatDetails
 			}{true, result})
 
-		})
+		}))
 	}
 
 	http.ListenAndServe(":3000", nil)
